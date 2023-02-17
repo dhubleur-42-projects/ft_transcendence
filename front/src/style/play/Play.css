@@ -1,0 +1,46 @@
+.play {
+	height: 100%;
+}
+
+.play-state-lobby {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.lobby-btns {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.play-btn {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	border: 3px solid transparent;
+	border-radius: 15px;
+	color: #000;
+	cursor: pointer;
+	padding: 2rem;
+	font-size: 2rem;
+	font-weight: 600;
+	transition: border 0.3s linear;
+}
+
+.play-btn svg {
+	width: 2em;
+	height: 2em;
+}
+
+.ranked-btn {
+	background-color: var(--yellow-primary-color);
+}
+
+.fun-btn {
+	background-color: var(--blue-primary-color);
+}
+
+.play-btn:hover {
+	border: solid 3px black;
+}

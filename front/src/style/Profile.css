@@ -1,0 +1,26 @@
+.profile-loading {
+	display: flex;
+	justify-content: center;
+}
+
+.profile-container {
+	border-radius: 20px;
+	margin: 0 4% 4% 4%;
+	background-color: lightgray;
+	padding: 1rem;
+	border: 2px solid;
+}
+
+.profile-container hr {
+	border-top: 3px solid black;
+	border-radius: 8px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.profile-top-summary {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	align-items: flex-start;
+}

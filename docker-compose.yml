@@ -1,0 +1,50 @@
+version: "3.7"
+
+#https://stackoverflow.com/questions/46166304/docker-compose-volumes-without-colon
+
+services:
+  back:
+    build:
+      context: ./back
+      target: production
+    container_name: node
+    env_file:
+      - ./back/.env
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    networks:
+      - transcendance
+
+  db:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    env_file:
+      - ./back/.env
+    networks:
+      - transcendance
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  front:
+    build:
+      context: ./front
+      target: production
+    container_name: app
+    depends_on:
+      - back
+    ports:
+      - 8080:80
+    networks:
+      - transcendance
+
+networks:
+  transcendance:
+
+volumes:
+  pgdata:

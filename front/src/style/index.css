@@ -1,0 +1,95 @@
+@font-face {
+	font-family: 'PixeBoyRegular';
+	src: local('PixeBoyRegular'),
+		url('../font/PixeBoyRegular.woff2') format('woff2'),
+		url('../font/PixeBoyRegular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	font-family: 'Viga', sans-serif;
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 400;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+
+	--navbar-size: 75px;
+}
+
+html {
+	height: 100vh;
+	width: 100%;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background: rgb(131, 130, 124);
+	background-repeat: no-repeat;
+	background: -webkit-linear-gradient(
+		rgba(131, 130, 124, 1) 0%,
+		rgba(181, 181, 181, 1) 50%,
+		rgba(129, 129, 128, 1) 100%
+	);
+	background: -moz-linear-gradient(
+		rgba(131, 130, 124, 1) 0%,
+		rgba(181, 181, 181, 1) 50%,
+		rgba(129, 129, 128, 1) 100%
+	);
+	background: -ms-linear-gradient(
+		rgba(131, 130, 124, 1) 0%,
+		rgba(181, 181, 181, 1) 50%,
+		rgba(129, 129, 128, 1) 100%
+	);
+	background: -o-linear-gradient(
+		rgba(131, 130, 124, 1) 0%,
+		rgba(181, 181, 181, 1) 50%,
+		rgba(129, 129, 128, 1) 100%
+	);
+	background: linear-gradient(
+		rgba(131, 130, 124, 1) 0%,
+		rgba(181, 181, 181, 1) 50%,
+		rgba(129, 129, 128, 1) 100%
+	);
+}
+
+body {
+	margin: 0;
+	padding: 0;
+
+	--blue-primary-color: #17c0e9;
+	--yellow-primary-color: #ffb800;
+}
+
+main {
+	margin-top: var(--navbar-size);
+	height: calc(100vh - 2 * var(--navbar-size));
+}
+
+.app {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.app-loading {
+	height: 95vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.help-text {
+	font-size: 0.7rem;
+	font-style: italic;
+	text-align: right;
+}

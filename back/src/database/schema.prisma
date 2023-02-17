@@ -1,0 +1,216 @@
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// An User can have played multiple match (as the user one or user two) -> 1-n relationship.
+// An User can have won multiple matches -> 1-n relationship.
+// An User can have a single profile -> 1-1 relationship.
+// Tables Match holds the FK-key.
+
+model User {
+    id             Int              @id @unique @default(autoincrement())
+    login          String           @unique
+    name           String           @unique
+    otpSecret      String?
+    profile        UserProfile      @relation(fields: [profileId], references: [id])
+    profileId      Int              @unique
+    status         UserStatus       @default(ONLINE)
+    authIdentifier AuthIdentifier[]
+    friends        User[]           @relation("UserFriends")
+    friendsOf      User[]           @relation("UserFriends")
+    blocked        User[]           @relation("UserBlocked")
+    blockedBy      User[]           @relation("UserBlocked")
+
+    onChannels         UserOnChannel[]
+    matches            UserOnMatch[]
+    channelInvitations UserChannelInvitation[]
+    MessageOnChannel   MessageOnChannel[]
+    createdInvitation  MatchInvitation?
+}
+
+model UserOnChannel {
+    user      User        @relation(fields: [userId], references: [id])
+    userId    Int
+    channel   UserChannel @relation(fields: [channelId], references: [id])
+    channelId Int
+
+    role      UserOnChannelRole   @default(USER)
+    status    UserOnChannelStatus @default(CLEAN)
+    statusEnd DateTime?
+
+    messages          MessageOnChannel[]
+    lastReadedMessage Int                @default(-1)
+
+    @@id([userId, channelId], name: "id")
+}
+
+model UserChannelInvitation {
+    createdAt DateTime @default(now())
+
+    channel   UserChannel @relation(fields: [channelId], references: [id])
+    channelId Int
+    user      User        @relation(fields: [userId], references: [id])
+    userId    Int
+
+    @@id([channelId, userId], name: "id")
+}
+
+model MessageOnChannel {
+    id                     Int              @id @default(autoincrement())
+    postedAt               DateTime         @default(now())
+    content                String
+    channel                UserChannel      @relation(fields: [channelId], references: [id])
+    channelId              Int
+    author                 User             @relation(fields: [authorId], references: [id])
+    authorId               Int
+    UserOnChannel          UserOnChannel?   @relation(fields: [userOnChannelUserId, userOnChannelChannelId], references: [userId, channelId])
+    userOnChannelUserId    Int?
+    userOnChannelChannelId Int?
+    matchInvitation        MatchInvitation?
+}
+
+model UserChannel {
+    id Int @id @unique @default(autoincrement())
+
+    createdAt DateTime @default(now())
+
+    visibility   UserChannelVisibility   @default(PUBLIC)
+    password     String?
+    name         String                  @unique
+    participants UserOnChannel[]
+    invitations  UserChannelInvitation[]
+    messages     MessageOnChannel[]
+}
+
+model UserProfile {
+    id           Int               @id @unique @default(autoincrement())
+    xp           Int               @default(0)
+    elo          Int               @default(1000)
+    wonMatches   Int               @default(0)
+    lostMatches  Int               @default(0)
+    picture      String
+    achievements UserAchievement[]
+    user         User?
+}
+
+model UserAchievement {
+    id            Int             @id @default(autoincrement())
+    type          AchievementType
+    progress      Int             @default(0)
+    bestProgress  Int             @default(0)
+    unlocked      Boolean         @default(false)
+    unlockedAt    DateTime?
+    UserProfile   UserProfile     @relation(fields: [userProfileId], references: [id])
+    userProfileId Int
+}
+
+model UserOnMatch {
+    id     Int  @id @default(autoincrement())
+    user   User @relation(fields: [userId], references: [id])
+    userId Int
+
+    score       Int      @default(0)
+    xpAtBeg     Int
+    xpEarned    Int
+    eloAtBeg    Int
+    eloEarned   Int
+    winner      Boolean?
+    bounces     Int      @default(0)
+    portalsUsed Int      @default(0)
+
+    asUserOne Match? @relation("userOne")
+    asUserTwo Match? @relation("userTwo")
+}
+
+model MatchInvitation {
+    id          Int                  @id @default(autoincrement())
+    createdAt   DateTime             @default(now())
+    createdBy   User                 @relation(fields: [createdById], references: [id])
+    createdById Int                  @unique
+    status      MathInvitationStatus @default(PENDING)
+    message     MessageOnChannel?    @relation(fields: [messageId], references: [id])
+    messageId   Int?                 @unique
+}
+
+model Match {
+    userOne          UserOnMatch @relation("userOne", fields: [userOneOnMatchId], references: [id])
+    userOneOnMatchId Int         @unique
+    userTwo          UserOnMatch @relation("userTwo", fields: [userTwoOnMatchId], references: [id])
+    userTwoOnMatchId Int         @unique
+
+    id         Int       @id @unique @default(autoincrement())
+    createdAt  DateTime  @default(now())
+    finishedAt DateTime?
+    type       MatchType
+}
+
+model AuthIdentifier {
+    identifier String @id @unique
+    user       User   @relation(fields: [userId], references: [id])
+    userId     Int
+}
+
+enum MathInvitationStatus {
+    PENDING
+    ACCEPTED
+    PLAYING
+    FINISHED
+}
+
+enum MatchType {
+    RANKED
+    FUN
+}
+
+enum AchievementType {
+    NEW_SUBJECT
+    WHEATLEY
+    P_BODY
+    GLADOS
+    APPRENTICE
+    LEARNER
+    EXPERT
+    STREAKER
+    MASTER_STREAKER
+    BOUNCER
+    PROFFESIONAL_BOUNCER
+    CHAMPION
+    MASTER
+    LEGEND
+    PORTALS_USER
+    PORTALS_ADDICT
+    ENDURANT
+    SEMI_MARATHON
+    MARATHON
+}
+
+enum UserStatus {
+    ONLINE
+    OFFLINE
+    PLAYING
+}
+
+enum UserOnChannelRole {
+    OPERATOR
+    ADMIN
+    USER
+}
+
+enum UserOnChannelStatus {
+    CLEAN
+    MUTED
+    BANNED
+}
+
+enum UserChannelVisibility {
+    PUBLIC
+    PRIVATE
+    PWD_PROTECTED
+    PRIVATE_MESSAGE
+}

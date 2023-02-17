@@ -1,0 +1,42 @@
+.user-list .user-item {
+	display: flex;
+	flex-direction: column;
+}
+
+.user-item {
+	margin-top: 20px;
+}
+
+.user-list .user-item-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.user-list .user-item-top img {
+	box-shadow: 2px 2px 5px 3px rgba(0, 0, 0, 0.29);
+	width: 70px;
+	height: 70px;
+}
+
+.user-list .user-item-center {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.user-list .user-item-center button {
+	padding: 0;
+	border: 1px solid black;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.user-list .user-item-center button svg {
+	width: 30px;
+	height: 30px;
+}
+
+.user-section .user-item-bottom {
+}

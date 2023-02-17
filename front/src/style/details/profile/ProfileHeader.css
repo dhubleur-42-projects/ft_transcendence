@@ -1,0 +1,77 @@
+.profile-header-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-right: 1rem;
+	padding-left: 1rem;
+	margin-bottom: 1rem;
+}
+
+.profile-header-top img {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+}
+
+.profile-header-top input[type='text'] {
+	padding: 0.2em;
+	font-size: 0.7em;
+}
+
+.profile-header-searchbar {
+	display: flex;
+	align-items: flex-end;
+}
+
+.profile-header-searchbar button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.profile-header-searchbar button svg {
+	width: 35px;
+	height: 35px;
+}
+
+.profile-header-user {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.profile-status {
+	margin-left: 20px;
+	padding: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 50px;
+	font-size: 15px;
+}
+
+.status-ONLINE {
+	border: solid 4px #04b204;
+}
+
+.status-OFFLINE {
+	border: solid 4px #b20404;
+}
+
+.status-PLAYING {
+	border: solid 4px #04b2b2;
+}
+
+.profile-spectate-btn {
+	margin-left: 20px;
+	height: 40px;
+	cursor: pointer;
+	font-size: 15px;
+	font-weight: 800;
+	border: solid 2px transparent;
+	background-color: var(--blue-primary-color);
+	border-radius: 10px;
+}
+
+.profile-spectate-btn:hover {
+	border: solid 2px black;
+}

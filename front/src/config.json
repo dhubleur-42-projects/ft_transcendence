@@ -1,0 +1,4 @@
+{
+	"back_url": "http://localhost:3000",
+	"ws_url": "ws://localhost:3000"
+}
